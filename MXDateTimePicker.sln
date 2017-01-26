@@ -5,8 +5,6 @@ VisualStudioVersion = 12.0.40629.0
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DateTimePicker", "DateTimePicker\DateTimePicker.csproj", "{54265968-D039-4DC1-B404-639AD6E8A583}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TestExtendedWPF", "TestExtendedWPF\TestExtendedWPF.csproj", "{6EE59F95-B91C-40F8-BFB8-3AC7286A9202}"
-EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -17,10 +15,6 @@ Global
 		{54265968-D039-4DC1-B404-639AD6E8A583}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{54265968-D039-4DC1-B404-639AD6E8A583}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{54265968-D039-4DC1-B404-639AD6E8A583}.Release|Any CPU.Build.0 = Release|Any CPU
-		{6EE59F95-B91C-40F8-BFB8-3AC7286A9202}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{6EE59F95-B91C-40F8-BFB8-3AC7286A9202}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{6EE59F95-B91C-40F8-BFB8-3AC7286A9202}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{6EE59F95-B91C-40F8-BFB8-3AC7286A9202}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
