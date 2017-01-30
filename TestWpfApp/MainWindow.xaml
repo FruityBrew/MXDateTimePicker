@@ -10,9 +10,11 @@
             <RowDefinition/>
             <RowDefinition/>
         </Grid.RowDefinitions>
-        <controls:DateTimePicker Grid.Row="1">
-            
+        <controls:DateTimePicker Grid.Row="1" Value="{Binding Path=DateTimeForBuisnesLogic}">
+
         </controls:DateTimePicker>
-        
+        <Button Content="Button" HorizontalAlignment="Left" Margin="177,40,0,0" Grid.Row="2" VerticalAlignment="Top" Width="244" Height="40"
+                Command="{Binding SaveChangesCommand}"/>
+
     </Grid>
 </Window>
