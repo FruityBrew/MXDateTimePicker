@@ -9,6 +9,7 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
 using Xceed.Wpf.Toolkit;
+using System.Windows.Input;
 
 namespace DateTimePicker
 {
@@ -22,9 +23,18 @@ namespace DateTimePicker
 
         #region Static
 
+        private static RoutedUICommand _resetTimer;
+
         #region Properties
 
         public static DependencyProperty CurrentVal;
+
+        public static DependencyProperty ResetTimerDP;
+
+        //public static RoutedUICommand ResetTimer
+        //{
+        //    get { return _resetTimer; }
+        //}
 
         #endregion Properties
 
@@ -41,6 +51,27 @@ namespace DateTimePicker
                 "CurVal", 
                 typeof(DateTime), 
                 typeof(DateTimePicker));
+
+            InputGestureCollection inputs = new InputGestureCollection();
+            inputs.Add(new KeyGesture(Key.Escape));
+
+            _resetTimer = new RoutedUICommand(
+                "ResetTimer", 
+                "ResetTimer", 
+                typeof(DateTimePicker), 
+                inputs);
+
+
+            ResetTimerDP = DependencyProperty.Register(
+                "ResetTimer",
+                typeof(ICommand),
+                typeof(DateTimePicker));
+
+
+            //CommandManager.RegisterClassCommandBinding(
+            //    typeof(DateTimePicker),
+            //    new CommandBinding(Reset)
+
         }
         #endregion Constructors
 
@@ -56,6 +87,18 @@ namespace DateTimePicker
         #endregion Fields
 
         #region Properties
+
+        public ICommand ResetTimer
+        {
+            get
+            {
+                return (ICommand)GetValue(ResetTimerDP);
+            }
+            set
+            {
+                SetValue(ResetTimerDP, value);
+            }
+        }
 
         public DateTime CurVal
         {
@@ -88,6 +131,11 @@ namespace DateTimePicker
 
             this.GotKeyboardFocus += this.StopTimer;
             this.KeyDown +=DateTimePicker_KeyDown;
+
+            ResetTimer = new RelayCommand(
+                StartTimer,
+                (obj) => true);
+
         }
 
         private void DateTimePicker_KeyDown(object sender, System.Windows.Input.KeyEventArgs e)
@@ -98,12 +146,24 @@ namespace DateTimePicker
             }
         }
 
+        private void StartTimer(object unusless)
+        {
+            this._OnTimeEvent(this, null);
+            this._timeUpdater.Start();
+        }
+
+        private static void StartTimerExecute(
+            object sender,
+            ExecutedRoutedEventArgs arg)
+        {
+            (sender as DateTimePicker)._timeUpdater.Start();
+        }
         private void StopTimer(object sender, EventArgs arg)
         {
             this._timeUpdater.Stop();
         }
 
-        #endregion Construcnors
+        #endregion Constructors
 
         #region Utilities
         #endregion Utilities

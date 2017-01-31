@@ -1,4 +1,5 @@
-﻿using System;
+﻿using DateTimePicker;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -28,12 +29,14 @@ namespace TestWpfApp
 
         public ViewModel()
         {
-            this.SaveChangesCommand = new XCommand(this.SaveChanges);
+            this.SaveChangesCommand = new RelayCommand(
+                this.SaveChanges,
+                (obj) => true);
         }
 
         public ICommand SaveChangesCommand { get; set; }
 
-        public void SaveChanges()
+        public void SaveChanges(object param)
         {
             // сохранить дату где-то:
             DateTime fakeDate = this.DateTimeForBuisnesLogic;
