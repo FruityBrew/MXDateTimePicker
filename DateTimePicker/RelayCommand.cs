@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Input;
 
-namespace DateTimePicker
+namespace ExtendedDateTimePicker
 {
     public class RelayCommand : ICommand
     {

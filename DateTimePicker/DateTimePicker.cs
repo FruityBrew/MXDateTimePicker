@@ -8,12 +8,12 @@ using Timer = System.Timers;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
-using Xceed.Wpf.Toolkit;
+using TK = Xceed.Wpf.Toolkit;
 using System.Windows.Input;
 
-namespace DateTimePicker
+namespace ExtendedDateTimePicker
 {
-    public class DateTimePicker : DateTimeUpDown
+    public class ExtendedDateTimePicker : TK.DateTimePicker
     {
 
         #region Static
@@ -33,23 +33,23 @@ namespace DateTimePicker
 
         #region Constructors
 
-        static DateTimePicker()
+        static ExtendedDateTimePicker()
         {
             // предоставление стиля по умолчанию:
             FrameworkElement.DefaultStyleKeyProperty.OverrideMetadata(
-                typeof(DateTimePicker),
-                new FrameworkPropertyMetadata(typeof(DateTimePicker)));
+                typeof(ExtendedDateTimePicker),
+                new FrameworkPropertyMetadata(typeof(ExtendedDateTimePicker)));
 
             // регистрация сво
             ManuallySettedValueProperty = DependencyProperty.Register(
                 "ManuallySettedValue", 
                 typeof(DateTime), 
-                typeof(DateTimePicker));
+                typeof(ExtendedDateTimePicker));
 
             SetManuallyTimeCommandProperty = DependencyProperty.Register(
                 "SetManuallyTimeCommand",
                 typeof(ICommand),
-                typeof(DateTimePicker));
+                typeof(ExtendedDateTimePicker));
         }
         #endregion Constructors
 
@@ -100,7 +100,7 @@ namespace DateTimePicker
         #endregion Properties
 
         #region Constructors
-        public DateTimePicker() : base()
+        public ExtendedDateTimePicker() : base()
         {
         }
 

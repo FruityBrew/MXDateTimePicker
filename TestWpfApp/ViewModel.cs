@@ -1,4 +1,4 @@
-﻿using DateTimePicker;
+﻿using ExtendedDateTimePicker;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;

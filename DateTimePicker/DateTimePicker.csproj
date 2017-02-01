@@ -7,7 +7,7 @@
     <ProjectGuid>{54265968-D039-4DC1-B404-639AD6E8A583}</ProjectGuid>
     <OutputType>library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>DateTimePicker</RootNamespace>
+    <RootNamespace>ExtendedDateTimePicker</RootNamespace>
     <AssemblyName>DateTimePicker</AssemblyName>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
@@ -72,6 +72,10 @@
   </ItemGroup>
   <ItemGroup>
     <Page Include="Themes\DateTimePickerDefaultStyle.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Themes\Glyphs.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

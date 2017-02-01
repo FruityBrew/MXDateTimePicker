@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Windows.Data;
 
-namespace DateTimePicker
+namespace ExtendedDateTimePicker
 {
     public class MultiCommandConverter : IMultiValueConverter
     {
