@@ -14,8 +14,20 @@
             <RowDefinition/>
             <RowDefinition/>
         </Grid.RowDefinitions>
-        <TextBlock Grid.Row="0" Text="{Binding Path=DateTimeForBuisnesLogicTxt }" />
-        <controls:DateTimePicker x:Name="DTPicker" Grid.Row="1" ManuallySettedValue="{Binding Path=DateTimeForBuisnesLogic, Mode=OneWayToSource}">
+        <TextBlock Grid.Row="0" Text="{Binding Path=DateTimeForBuisnesLogicTxt }" VerticalAlignment="Center" HorizontalAlignment="Center" FontSize="20" />
+        <controls:DateTimePicker 
+            x:Name="DTPicker" 
+            Grid.Row="1" 
+            ManuallySettedValue="{Binding Path=DateTimeForBuisnesLogic, Mode=OneWayToSource}"
+            Margin="20"
+            FontSize="25"
+            Maximum="01.02.2018"
+            Format="Custom"
+            FormatString="dd MMMM yyyy HH:mm:ss"
+            VerticalAlignment="Center"
+            HorizontalAlignment="Center"
+            Height="50"
+            >
         </controls:DateTimePicker>
         
         <Button Content="SaveDate" HorizontalAlignment="Stretch" Margin="20" Grid.Row="2" VerticalAlignment="Stretch">
