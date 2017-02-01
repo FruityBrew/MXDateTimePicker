@@ -18,7 +18,7 @@
         <controls:ExtendedDateTimePicker 
             x:Name="DTPicker" 
             Grid.Row="1" 
-            ManuallySettedValue="{Binding Path=DateTimeForBuisnesLogic, Mode=OneWayToSource}"
+            ValueToSave ="{Binding Path=DateTimeForBuisnesLogic, Mode=OneWayToSource}"
             Margin="20"
             FontSize="25"
             Maximum="01.02.2018"
@@ -33,7 +33,7 @@
         <Button Content="SaveDate" HorizontalAlignment="Stretch" Margin="20" Grid.Row="2" VerticalAlignment="Stretch">
             <Button.Command>
                 <MultiBinding Converter="{StaticResource ResourceKey=MultiCommandConverter}">
-                    <Binding ElementName="DTPicker" Path="SetManuallyTimeCommand"/>
+                    <Binding ElementName="DTPicker" Path="SetValueToSaveCommand"/>
                     <Binding Path="SaveChangesCommand"/>
                 </MultiBinding>
             </Button.Command>

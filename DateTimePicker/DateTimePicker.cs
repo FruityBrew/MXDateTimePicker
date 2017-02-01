@@ -21,13 +21,13 @@ namespace ExtendedDateTimePicker
         #region Properties
 
         /// <summary>
-        /// ДатаВремя, устанавливаемое вручную.
+        /// ДатаВремя, сохраняемое на клиенте.
         /// </summary>
-        public static DependencyProperty ManuallySettedValueProperty;
+        public static DependencyProperty ValueToSaveProperty;
         /// <summary>
-        /// Команда сброса отображаемого времени в актуальное.
+        /// Команда сброса времени.
         /// </summary>
-        public static DependencyProperty SetManuallyTimeCommandProperty;
+        public static DependencyProperty SetValueToSaveCommandProperty;
 
         #endregion Properties
 
@@ -41,13 +41,13 @@ namespace ExtendedDateTimePicker
                 new FrameworkPropertyMetadata(typeof(ExtendedDateTimePicker)));
 
             // регистрация сво
-            ManuallySettedValueProperty = DependencyProperty.Register(
-                "ManuallySettedValue", 
+            ValueToSaveProperty = DependencyProperty.Register(
+                "ValueToSave", 
                 typeof(DateTime), 
                 typeof(ExtendedDateTimePicker));
 
-            SetManuallyTimeCommandProperty = DependencyProperty.Register(
-                "SetManuallyTimeCommand",
+            SetValueToSaveCommandProperty = DependencyProperty.Register(
+                "SetValueToSaveCommand",
                 typeof(ICommand),
                 typeof(ExtendedDateTimePicker));
         }
@@ -71,29 +71,29 @@ namespace ExtendedDateTimePicker
         /// <summary>
         /// Команда сброса даты-времени в актуальное состояние.
         /// </summary>
-        public ICommand SetManuallyTimeCommand
+        public ICommand SetValueToSaveCommand
         {
             get
             {
-                return (ICommand)GetValue(SetManuallyTimeCommandProperty);
+                return (ICommand)GetValue(SetValueToSaveCommandProperty);
             }
             set
             {
-                SetValue(SetManuallyTimeCommandProperty, value);
+                SetValue(SetValueToSaveCommandProperty, value);
             }
         }
         /// <summary>
-        /// Дата-время, установленные вручную.
+        /// Дата-время, для сохранения на клиенте.
         /// </summary>
-        public DateTime ManuallySettedValue
+        public DateTime ValueToSave
         {
             get 
             { 
-                return (DateTime)GetValue(ManuallySettedValueProperty); 
+                return (DateTime)GetValue(ValueToSaveProperty); 
             }
             set 
             { 
-                SetValue(ManuallySettedValueProperty, value); 
+                SetValue(ValueToSaveProperty, value); 
             }
         }
 
@@ -119,7 +119,7 @@ namespace ExtendedDateTimePicker
         {
             if (this.Value.HasValue)
             {
-                this.ManuallySettedValue = this.Value.Value;
+                this.ValueToSave = this.Value.Value;
                 this._ResetTime();
             }
         }
@@ -164,7 +164,7 @@ namespace ExtendedDateTimePicker
             // Подписка на нажатие клавиши клавиатуры:
             this.KeyDown += DateTimePicker_KeyDown;
 
-            this.SetManuallyTimeCommand = new RelayCommand(
+            this.SetValueToSaveCommand = new RelayCommand(
                 this._SetManuallyValue,
                 (obj) => true);  
         }
