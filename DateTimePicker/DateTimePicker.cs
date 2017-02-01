@@ -57,6 +57,8 @@ namespace DateTimePicker
 
         #region Fields
 
+        private DateTime _actualDateTime;
+
         /// <summary>
         /// Таймер обновления отображаемого времени.
         /// </summary>
@@ -128,7 +130,8 @@ namespace DateTimePicker
                 new ThreadStart(
                     () =>
                     {
-                        this.SetCurrentValue(ValueProperty, DateTime.Now);
+                        //this.SetCurrentValue(ValueProperty, DateTime.Now);
+                        this.Value = DateTime.Now;
                     }));
         }
 
@@ -147,6 +150,8 @@ namespace DateTimePicker
 
             // начальная установка свойств:
             this._UpdateTime();
+
+            
 
             // Создание и запуск таймера:
 
