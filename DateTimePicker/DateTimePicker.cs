@@ -57,8 +57,6 @@ namespace ExtendedDateTimePicker
 
         #region Fields
 
-        private DateTime _actualDateTime;
-
         /// <summary>
         /// Таймер обновления отображаемого времени.
         /// </summary>
@@ -102,6 +100,10 @@ namespace ExtendedDateTimePicker
         #region Constructors
         public ExtendedDateTimePicker() : base()
         {
+            // Формат даты-времени по умолчанию:
+
+            this.Format = TK.DateTimeFormat.Custom;
+            this.FormatString = "dd.MM.yyy HH:mm:ss";
         }
 
         #endregion Constructors
@@ -166,7 +168,8 @@ namespace ExtendedDateTimePicker
 
             this.SetValueToSaveCommand = new RelayCommand(
                 this._SetManuallyValue,
-                (obj) => true);  
+                (obj) => true);
+
         }
 
 

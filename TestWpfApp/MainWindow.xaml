@@ -22,8 +22,7 @@
             Margin="20"
             FontSize="25"
             Maximum="01.02.2018"
-            Format="Custom"
-            FormatString="dd MMMM yyyy HH:mm:ss"
+
             VerticalAlignment="Center"
             HorizontalAlignment="Center"
             Height="50"
