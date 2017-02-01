@@ -14,15 +14,15 @@
             <RowDefinition/>
             <RowDefinition/>
         </Grid.RowDefinitions>
-        <controls:DateTimePicker x:Name="DTPicker" Grid.Row="1" Value="{Binding Path=DateTimeForBuisnesLogic}">
-
+        <TextBlock Grid.Row="0" Text="{Binding Path=DateTimeForBuisnesLogicTxt }" />
+        <controls:DateTimePicker x:Name="DTPicker" Grid.Row="1" ManuallySettedValue="{Binding Path=DateTimeForBuisnesLogic, Mode=OneWayToSource}">
         </controls:DateTimePicker>
         
         <Button Content="SaveDate" HorizontalAlignment="Stretch" Margin="20" Grid.Row="2" VerticalAlignment="Stretch">
             <Button.Command>
                 <MultiBinding Converter="{StaticResource ResourceKey=MultiCommandConverter}">
+                    <Binding ElementName="DTPicker" Path="SetManuallyTimeCommand"/>
                     <Binding Path="SaveChangesCommand"/>
-                    <Binding ElementName="DTPicker" Path="ResetTimer"/>
                 </MultiBinding>
             </Button.Command>
 

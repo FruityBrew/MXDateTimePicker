@@ -1,6 +1,7 @@
 ﻿using DateTimePicker;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -11,7 +12,7 @@ namespace TestWpfApp
     /// <summary>
     /// Тестовая вьюмодель.
     /// </summary>
-    public class ViewModel
+    public class ViewModel : INotifyPropertyChanged
     {
         private DateTime _dateTimeForBuisnesLogic;
 
@@ -24,6 +25,17 @@ namespace TestWpfApp
             set
             {
                 this._dateTimeForBuisnesLogic = value;
+                this._OnPropertyChanged("DateTimeForBuisnesLogic");
+                this._OnPropertyChanged("DateTimeForBuisnesLogicTxt");
+            }
+        }
+
+        public String DateTimeForBuisnesLogicTxt
+        {
+            get
+            {
+                return this._dateTimeForBuisnesLogic.ToString(
+                    "dd.MM.yyyy HH:mm:ss");
             }
         }
 
@@ -42,5 +54,13 @@ namespace TestWpfApp
             DateTime fakeDate = this.DateTimeForBuisnesLogic;
         }
 
+
+        public event PropertyChangedEventHandler PropertyChanged;
+
+        private void _OnPropertyChanged(string propName)
+        {
+            if (PropertyChanged != null)
+                PropertyChanged(this, new PropertyChangedEventArgs(propName));
+        }
     }
 }

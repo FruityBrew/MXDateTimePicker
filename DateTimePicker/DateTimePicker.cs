@@ -15,26 +15,19 @@ namespace DateTimePicker
 {
     public class DateTimePicker : DateTimeUpDown
     {
-         #region Constants
-
-        //private const string PART_TimeUpDown = "PART_TimeUpDown";
-
-        #endregion Constants
 
         #region Static
 
-        private static RoutedUICommand _resetTimer;
-
         #region Properties
 
-        public static DependencyProperty CurrentVal;
-
-        public static DependencyProperty ResetTimerDP;
-
-        //public static RoutedUICommand ResetTimer
-        //{
-        //    get { return _resetTimer; }
-        //}
+        /// <summary>
+        /// ДатаВремя, устанавливаемое вручную.
+        /// </summary>
+        public static DependencyProperty ManuallySettedValueProperty;
+        /// <summary>
+        /// Команда сброса отображаемого времени в актуальное.
+        /// </summary>
+        public static DependencyProperty SetManuallyTimeCommandProperty;
 
         #endregion Properties
 
@@ -47,74 +40,58 @@ namespace DateTimePicker
                 typeof(DateTimePicker),
                 new FrameworkPropertyMetadata(typeof(DateTimePicker)));
 
-            CurrentVal = DependencyProperty.Register(
-                "CurVal", 
+            // регистрация сво
+            ManuallySettedValueProperty = DependencyProperty.Register(
+                "ManuallySettedValue", 
                 typeof(DateTime), 
                 typeof(DateTimePicker));
 
-            InputGestureCollection inputs = new InputGestureCollection();
-            inputs.Add(new KeyGesture(Key.Escape));
-
-            _resetTimer = new RoutedUICommand(
-                "ResetTimer", 
-                "ResetTimer", 
-                typeof(DateTimePicker), 
-                inputs);
-
-
-            ResetTimerDP = DependencyProperty.Register(
-                "ResetTimer",
+            SetManuallyTimeCommandProperty = DependencyProperty.Register(
+                "SetManuallyTimeCommand",
                 typeof(ICommand),
                 typeof(DateTimePicker));
-
-
-            //CommandManager.RegisterClassCommandBinding(
-            //    typeof(DateTimePicker),
-            //    new CommandBinding(Reset)
-
         }
         #endregion Constructors
-
 
         #endregion Static
 
         #region Fields
 
+        /// <summary>
+        /// Таймер обновления отображаемого времени.
+        /// </summary>
         private Timer.Timer _timeUpdater;
-
-        private DateTime _currentDateTime;
 
         #endregion Fields
 
         #region Properties
 
-        public ICommand ResetTimer
+        /// <summary>
+        /// Команда сброса даты-времени в актуальное состояние.
+        /// </summary>
+        public ICommand SetManuallyTimeCommand
         {
             get
             {
-                return (ICommand)GetValue(ResetTimerDP);
+                return (ICommand)GetValue(SetManuallyTimeCommandProperty);
             }
             set
             {
-                SetValue(ResetTimerDP, value);
+                SetValue(SetManuallyTimeCommandProperty, value);
             }
         }
-
-        public DateTime CurVal
+        /// <summary>
+        /// Дата-время, установленные вручную.
+        /// </summary>
+        public DateTime ManuallySettedValue
         {
-            get { return (DateTime)GetValue(CurrentVal); }
-            set { SetValue(CurrentVal, value); }
-        }
-        
-        public DateTime CurrentDateTime
-        {
-            get
-            {
-                return this._currentDateTime;
+            get 
+            { 
+                return (DateTime)GetValue(ManuallySettedValueProperty); 
             }
-            set
-            {
-                this._currentDateTime = value;
+            set 
+            { 
+                SetValue(ManuallySettedValueProperty, value); 
             }
         }
 
@@ -123,78 +100,89 @@ namespace DateTimePicker
         #region Constructors
         public DateTimePicker() : base()
         {
-            this._currentDateTime = DateTime.Now;
-            this.CurVal = DateTime.Now;
-            this._timeUpdater = new Timer.Timer(1000);
-            this._timeUpdater.Elapsed += this._OnTimeEvent;
-            this._timeUpdater.Start();
-
-            this.GotKeyboardFocus += this.StopTimer;
-            this.KeyDown +=DateTimePicker_KeyDown;
-
-            ResetTimer = new RelayCommand(
-                StartTimer,
-                (obj) => true);
-
-        }
-
-        private void DateTimePicker_KeyDown(object sender, System.Windows.Input.KeyEventArgs e)
-        {
-            if(e.Key == System.Windows.Input.Key.Escape)
-            {
-                this._timeUpdater.Start();
-            }
-        }
-
-        private void StartTimer(object unusless)
-        {
-            this._OnTimeEvent(this, null);
-            this._timeUpdater.Start();
-        }
-
-        private static void StartTimerExecute(
-            object sender,
-            ExecutedRoutedEventArgs arg)
-        {
-            (sender as DateTimePicker)._timeUpdater.Start();
-        }
-        private void StopTimer(object sender, EventArgs arg)
-        {
-            this._timeUpdater.Stop();
         }
 
         #endregion Constructors
 
         #region Utilities
-        #endregion Utilities
 
-        #region Methods
-        #endregion Methods
+        private void _ResetTime()
+        {
+            this._OnTimeEvent(this, null);
+            Keyboard.ClearFocus();
+            this._timeUpdater.Start();
+        }
+
+        private void _SetManuallyValue(object parameter)
+        {
+            if (this.Value.HasValue)
+            {
+                this.ManuallySettedValue = this.Value.Value;
+                this._ResetTime();
+            }
+        }
+
+        private void _UpdateTime()
+        {
+            this.Dispatcher.BeginInvoke(
+                new ThreadStart(
+                    () =>
+                    {
+                        this.SetCurrentValue(ValueProperty, DateTime.Now);
+                    }));
+        }
+
+        private void _StopTimer(object sender, EventArgs arg)
+        {
+            this._timeUpdater.Stop();
+        }
+
+        #endregion Utilities
 
         #region Methods overrides
 
         public override void OnApplyTemplate()
         {
             base.OnApplyTemplate();
+
+            // начальная установка свойств:
+            this._UpdateTime();
+
+            // Создание и запуск таймера:
+
+            this._timeUpdater = new Timer.Timer(1000);
+            this._timeUpdater.Elapsed += this._OnTimeEvent;
+            this._timeUpdater.Start();
+
+            // Подписка остановки таймера на захват фокуса клавиатуры:
+            this.GotKeyboardFocus += this._StopTimer;
+            // Подписка на нажатие клавиши клавиатуры:
+            this.KeyDown += DateTimePicker_KeyDown;
+
+            this.SetManuallyTimeCommand = new RelayCommand(
+                this._SetManuallyValue,
+                (obj) => true);  
         }
+
 
         #endregion Methods overrides
 
 
         #region Event handlers
+
+        private void DateTimePicker_KeyDown(object sender, KeyEventArgs e)
+        {
+            // если esc - сбросить в текущее
+            if (e.Key == Key.Escape)
+            {
+                this._ResetTime();
+            }
+        }
+
         private void _OnTimeEvent(Object source, Timer.ElapsedEventArgs arg)
         {
-            this.Dispatcher.BeginInvoke(
-                new ThreadStart(
-                    () => 
-                    { 
-                        this.SetCurrentValue(ValueProperty, DateTime.Now); 
-                    }));
+            this._UpdateTime();
         }
         #endregion Event handlers
-
-        #region Events
-
-        #endregion Events
     }
 }

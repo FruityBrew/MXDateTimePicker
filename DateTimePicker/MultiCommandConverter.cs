@@ -11,13 +11,13 @@ namespace DateTimePicker
         private Action<object> GetCompoundExecute()
         {
             return (parameter) =>
-            {
-                foreach (RelayCommand command in _values)
-                {
-                    if (command != default(RelayCommand))
-                        command.Execute(parameter);
-                }
-            };
+                    {
+                        foreach (RelayCommand command in _values)
+                        {
+                            if (command != null)
+                                command.Execute(parameter);
+                        }
+                    };
         }
 
         public object Convert(
