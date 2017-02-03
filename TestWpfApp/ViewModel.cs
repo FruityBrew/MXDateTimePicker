@@ -14,9 +14,9 @@ namespace TestWpfApp
     /// </summary>
     public class ViewModel : INotifyPropertyChanged
     {
-        private DateTime _dateTimeForBuisnesLogic;
+        private DateTime? _dateTimeForBuisnesLogic;
 
-        public DateTime DateTimeForBuisnesLogic
+        public DateTime? DateTimeForBuisnesLogic
         {
             get
             {
@@ -34,8 +34,11 @@ namespace TestWpfApp
         {
             get
             {
-                return this._dateTimeForBuisnesLogic.ToString(
-                    "dd.MM.yyyy HH:mm:ss");
+                if (this._dateTimeForBuisnesLogic.HasValue)
+                    return this._dateTimeForBuisnesLogic.Value.ToString(
+                        "dd.MM.yyyy HH:mm:ss");
+                else
+                    return "";
             }
         }
 
@@ -50,8 +53,9 @@ namespace TestWpfApp
 
         public void SaveChanges(object param)
         {
+
             // сохранить дату где-то:
-            DateTime fakeDate = this.DateTimeForBuisnesLogic;
+            DateTime fakeDate = this.DateTimeForBuisnesLogic.Value;
         }
 
 

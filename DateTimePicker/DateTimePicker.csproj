@@ -71,6 +71,10 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Page Include="Themes\ButtonSpinner.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Themes\DateTimePickerDefaultStyle.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>

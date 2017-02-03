@@ -43,7 +43,7 @@ namespace ExtendedDateTimePicker
             // регистрация сво
             ValueToSaveProperty = DependencyProperty.Register(
                 "ValueToSave", 
-                typeof(DateTime), 
+                typeof(DateTime?), 
                 typeof(ExtendedDateTimePicker));
 
             SetValueToSaveCommandProperty = DependencyProperty.Register(
@@ -83,11 +83,11 @@ namespace ExtendedDateTimePicker
         /// <summary>
         /// Дата-время, для сохранения на клиенте.
         /// </summary>
-        public DateTime ValueToSave
+        public DateTime? ValueToSave
         {
             get 
             { 
-                return (DateTime)GetValue(ValueToSaveProperty); 
+                return (DateTime?)GetValue(ValueToSaveProperty); 
             }
             set 
             { 
@@ -102,8 +102,13 @@ namespace ExtendedDateTimePicker
         {
             // Формат даты-времени по умолчанию:
 
-            this.Format = TK.DateTimeFormat.Custom;
-            this.FormatString = "dd.MM.yyy HH:mm:ss";
+            base.Format = TK.DateTimeFormat.Custom;
+            base.FormatString = "dd/MM/yyy HH:mm:ss";
+
+          //  base.DisplayDefaultValueOnEmptyText = true; 
+
+            base.DefaultValue = null;
+            
         }
 
         #endregion Constructors
@@ -162,14 +167,35 @@ namespace ExtendedDateTimePicker
             this._timeUpdater.Start();
 
             // Подписка остановки таймера на захват фокуса клавиатуры:
-            this.GotKeyboardFocus += this._StopTimer;
+            base.GotKeyboardFocus += this._StopTimer;
             // Подписка на нажатие клавиши клавиатуры:
-            this.KeyDown += DateTimePicker_KeyDown;
+            base.KeyDown += DateTimePicker_KeyDown;
+
+            base.ValueChanged += ExtendedDateTimePicker_ValueChanged;
+
+            string wt = "__/__/____ __:__:__";
+            base.Watermark = wt;
 
             this.SetValueToSaveCommand = new RelayCommand(
                 this._SetManuallyValue,
                 (obj) => true);
+            base.Loaded += ExtendedDateTimePicker_Loaded;
+        }
 
+        void ExtendedDateTimePicker_Loaded(object sender, RoutedEventArgs e)
+        {
+            base.MinWidth = base.ActualWidth;
+        }
+
+        void ExtendedDateTimePicker_ValueChanged(
+            object sender, 
+            RoutedPropertyChangedEventArgs<object> e)
+        {
+            if(e.NewValue == null)
+            {
+                this.ValueToSave = null;
+                base.MinWidth = base.ActualWidth;
+            }
         }
 
 
